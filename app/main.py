@@ -7,9 +7,20 @@ from app.customers.router import router as customer_router
 from app.leads.router import router as lead_router
 from fastapi import FastAPI, Depends
 from app.core.config import Settings, get_settings
+from app.core.middleware import LoggingMiddleware
+from app.core.handlers import register_exception_handlers
+from app.benchmark.router import router as benchmark_router
+from app.users.router import router as user_router
 
 
 app = FastAPI()
+
+
+
+app.add_middleware(LoggingMiddleware)
+register_exception_handlers(app)
+app.include_router(benchmark_router)
+app.include_router(user_router)
 
 
 app.include_router(property_router)

@@ -1,9 +1,12 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app.database.database import SessionLocal
 from app.leads import schemas, service
-
+from app.core.permissions import require_agent, require_admin
+from app.core.lead_permissions import require_lead_access
+from app.core.rate_limit import rate_limiter
+from app.users.models import User
 
 router = APIRouter(
     prefix="/leads",
@@ -12,6 +15,7 @@ router = APIRouter(
 
 
 # Database session dependency
+
 def get_db():
     db = SessionLocal()
     try:
@@ -27,17 +31,20 @@ def get_leads(
     status: str | None = None,
     page: int = 1,
     limit: int = 10,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    user: User = Depends(require_agent)
 ):
     return service.get_all_leads(
         db,
         status,
         page,
-        limit
+        limit,
+        user
     )
 
 
 # CREATE lead
+
 @router.post(
     "/",
     response_model=schemas.LeadResponse,
@@ -45,11 +52,14 @@ def get_leads(
 )
 def create_lead(
     lead: schemas.LeadCreate,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    user: User = Depends(require_agent),
+    _ = Depends(rate_limiter)
 ):
     return service.create_lead(
         db,
-        lead
+        lead,
+        user
     )
 
 
@@ -61,22 +71,13 @@ def create_lead(
 )
 def get_lead(
     lead_id: int,
-    db: Session = Depends(get_db)
+    lead = Depends(require_lead_access)
 ):
-    lead = service.get_lead_by_id(
-        db,
-        lead_id
-    )
-
-    if lead is None:
-        raise HTTPException(
-            status_code=404,
-            detail="Lead not found"
-        )
-
     return lead
 
+
 # UPDATE lead (PUT)
+
 @router.put(
     "/{lead_id}",
     response_model=schemas.LeadResponse
@@ -84,21 +85,14 @@ def get_lead(
 def update_lead(
     lead_id: int,
     lead: schemas.LeadCreate,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_lead = Depends(require_admin)
 ):
-    updated_lead = service.update_lead(
+    return service.update_lead(
         db,
         lead_id,
         lead
     )
-
-    if updated_lead is None:
-        raise HTTPException(
-            status_code=404,
-            detail="Lead not found"
-        )
-
-    return updated_lead
 
 
 # PATCH lead
@@ -109,21 +103,15 @@ def update_lead(
 def patch_lead(
     lead_id: int,
     lead: schemas.LeadUpdate,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_lead = Depends(require_lead_access),
+    _ = Depends(rate_limiter)
 ):
-    updated_lead = service.patch_lead(
+    return service.patch_lead(
         db,
         lead_id,
         lead
     )
-
-    if updated_lead is None:
-        raise HTTPException(
-            status_code=404,
-            detail="Lead not found"
-        )
-
-    return updated_lead
 
 
 # DELETE lead
@@ -133,17 +121,13 @@ def patch_lead(
 )
 def delete_lead(
     lead_id: int,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    user = Depends(require_admin),
+    _ = Depends(rate_limiter)
 ):
-    deleted_lead = service.delete_lead(
+    service.delete_lead(
         db,
         lead_id
     )
-
-    if deleted_lead is None:
-        raise HTTPException(
-            status_code=404,
-            detail="Lead not found"
-        )
 
     return None

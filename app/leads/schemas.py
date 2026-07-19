@@ -26,16 +26,20 @@ class LeadBase(BaseModel):
     status: str
     property_id: int
     customer_id: int
+    agent_id: int
 
 
-class LeadCreate(LeadBase):
-    pass
+class LeadCreate(BaseModel):
+    status: str
+    property_id: int
+    customer_id: int
 
 
 class LeadUpdate(BaseModel):
     status: str | None = None
     property_id: int | None = None
     customer_id: int | None = None
+    
 
 
 class LeadResponse(LeadBase):
@@ -48,11 +52,14 @@ class LeadResponse(LeadBase):
 class LeadDetailResponse(BaseModel):
     id: int
     status: str
+    agent_id: int
     property: PropertyNested
     customer: CustomerNested
 
     class Config:
         from_attributes = True
+
+
 class LeadListResponse(BaseModel):
     total: int
     page: int

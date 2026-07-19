@@ -28,6 +28,12 @@ class Lead(Base):
         ForeignKey("customers.id")
     )
 
+    # New field for RBAC
+    agent_id = Column(
+        Integer,
+        nullable=True
+    )
+
 
     property = relationship(
         "Property",
