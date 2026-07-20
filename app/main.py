@@ -41,6 +41,7 @@ app.include_router(customer_router)
 app.include_router(lead_router)
 
 
+
 @app.get("/")
 def home(
     settings: Settings = Depends(get_settings)
@@ -48,4 +49,18 @@ def home(
     return {
         "message": "Real Estate API is running",
         "docs_enabled": settings.enable_docs
+    }
+
+
+@app.get("/health")
+def health():
+    return {
+        "status": "healthy"
+    }
+
+
+@app.get("/ready")
+def ready():
+    return {
+        "status": "ready"
     }
