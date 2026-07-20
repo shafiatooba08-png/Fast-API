@@ -170,10 +170,18 @@ def patch_lead(
     db.commit()
     db.refresh(existing_lead)
     if old_status != existing_lead.status:
-       emit_event(
-           "lead_status_changed",
-            existing_lead
-        )
+
+     print(
+        "STATUS CHANGED:",
+        old_status,
+        "->",
+        existing_lead.status
+    )
+
+    emit_event(
+        "lead_status_changed",
+        existing_lead
+    )
 
     return existing_lead
 # DELETE lead

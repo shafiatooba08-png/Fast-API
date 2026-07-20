@@ -1,0 +1,36 @@
+{
+	"id": "5e4ff8fe-6cc7-4979-8604-c8201d27369f",
+	"name": "Real Estate Environment",
+	"values": [
+		{
+			"key": "baseUrl",
+			"value": "http://127.0.0.1:8000",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "bearerToken",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMiIsInJvbGUiOiJhZG1pbiIsImV4cCI6MTc4NDU0ODAzOH0.vBfALN9UPTUun6lHVf7HzG9P9v55d6Oo-HsyUwhZBPk",
+			"type": "default",
+			"enabled": true,
+			"secret": true
+		},
+		{
+			"key": "usernam",
+			"value": "shafia",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "password",
+			"value": "pass11",
+			"type": "default",
+			"enabled": true
+		}
+		
+	],
+	"color": null,
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2026-07-20T10:49:31.461Z",
+	"_postman_exported_using": "Postman/12.19.4"
+}

@@ -1,0 +1,275 @@
+newman
+
+FastAPI
+
+□ benchmark / wrong
+└ Wrong Async Test
+  POST http://127.0.0.1:8000/auth/login [404 Not Found, 206B, 68ms]
+  ┌
+  │ 'Auth Error (404):', { detail: 'Not Found' }
+  └
+  GET http://127.0.0.1:8000/benchmark/wrong [200 OK, 211B, 2s]
+
+□ benchmark / fixed
+└ Fixed Async Test
+  POST http://127.0.0.1:8000/auth/login [404 Not Found, 206B, 8ms]
+  ┌
+  │ 'Auth Error (404):', { detail: 'Not Found' }
+  └
+  GET http://127.0.0.1:8000/benchmark/fixed [200 OK, 211B, 2s]
+
+□ users / login
+└ Login
+  POST http://127.0.0.1:8000/users/login [200 OK, 360B, 523ms]
+
+□ users
+└ Create User
+  POST http://127.0.0.1:8000/auth/login [404 Not Found, 206B, 7ms]
+  ┌
+  │ 'Auth Error (404):', { detail: 'Not Found' }
+  └
+  POST http://127.0.0.1:8000/users/ [409 Conflict, 218B, 74ms]
+
+□ properties / {property_id}
+└ Get Property
+  POST http://127.0.0.1:8000/auth/login [404 Not Found, 206B, 11ms]
+  ┌
+  │ 'Auth Error (404):', { detail: 'Not Found' }
+  └
+  GET http://127.0.0.1:8000/properties/4 [200 OK, 295B, 77ms]
+  √  Status code is 200 OK
+  √  Response time is less than 500ms
+  √  Response contains property details
+
+└ Update Property
+  POST http://127.0.0.1:8000/auth/login [404 Not Found, 206B, 5ms]
+  ┌
+  │ 'Auth Error (404):', { detail: 'Not Found' }
+  └
+  PUT http://127.0.0.1:8000/properties/4 [200 OK, 312B, 66ms]
+  √  Status code is 200 OK
+  √  Property updated successfully
+
+└ Delete Property
+  POST http://127.0.0.1:8000/auth/login [404 Not Found, 206B, 7ms]
+  ┌
+  │ 'Auth Error (404):', { detail: 'Not Found' }
+  └
+  DELETE http://127.0.0.1:8000/properties/3127 [404 Not Found, 215B, 11ms]
+
+└ Patch Property
+  POST http://127.0.0.1:8000/auth/login [404 Not Found, 206B, 6ms]
+  ┌
+  │ 'Auth Error (404):', { detail: 'Not Found' }
+  └
+  PATCH http://127.0.0.1:8000/properties/4 [200 OK, 295B, 17ms]
+  √  Status code is 200 OK
+  √  Response time is less than 500ms
+  √  Property title and beds updated correctly
+
+□ properties
+└ Get Properties
+  POST http://127.0.0.1:8000/auth/login [404 Not Found, 206B, 5ms]
+  ┌
+  │ 'Auth Error (404):', { detail: 'Not Found' }
+  └
+  GET http://127.0.0.1:8000/properties/?beds=4&location=&min_price=&page=1&limit=1 [422 Unprocessable Entity, 348B, 16ms]
+  1. Status code is 200 OK
+  2. Response returns pagination and properties list
+
+└ Create Property
+  POST http://127.0.0.1:8000/auth/login [404 Not Found, 206B, 5ms]
+  ┌
+  │ 'Auth Error (404):', { detail: 'Not Found' }
+  └
+  POST http://127.0.0.1:8000/properties/ [201 Created, 288B, 29ms]
+  √  Status code is 201 Created or 200 OK
+  √  Response time is less than 500ms
+  √  Created property returns valid ID and title
+
+□ customers / {customer_id}
+└ Get Customer
+  POST http://127.0.0.1:8000/auth/login [404 Not Found, 206B, 6ms]
+  ┌
+  │ 'Auth Error (404):', { detail: 'Not Found' }
+  └
+  3. Status code is 200 OK
+  4. Response contains required customer fields
+  GET http://127.0.0.1:8000/customers/7 [200 OK, 275B, 51ms]
+
+└ Update Customer
+  POST http://127.0.0.1:8000/auth/login [404 Not Found, 206B, 6ms]
+  ┌
+  │ 'Auth Error (404):', { detail: 'Not Found' }
+  └
+  PUT http://127.0.0.1:8000/customers/8 [200 OK, 285B, 31ms]
+  √  Status code is 200
+  √  Response contains valid customer ID
+  √  Customer details updated correctly
+  √  Response time is less than 500ms
+
+└ Patch Customer
+  POST http://127.0.0.1:8000/auth/login [404 Not Found, 206B, 5ms]
+  ┌
+  │ 'Auth Error (404):', { detail: 'Not Found' }
+  └
+  PATCH http://127.0.0.1:8000/customers/6 [200 OK, 280B, 19ms]
+  √  Status code is 200 OK
+  √  Response body contains valid customer structure
+  √  Patched fields match request payload
+  √  Response time is under 400ms
+
+└ Delete Customer
+  POST http://127.0.0.1:8000/auth/login [404 Not Found, 206B, 4ms]
+  ┌
+  │ 'Auth Error (404):', { detail: 'Not Found' }
+  └
+  DELETE http://127.0.0.1:8000/customers/1898 [404 Not Found, 215B, 14ms]
+  √  Status code is 404 Not Found for missing ID
+
+□ customers
+└ Get Customers
+  POST http://127.0.0.1:8000/auth/login [404 Not Found, 206B, 6ms]
+  ┌
+  │ 'Auth Error (404):', { detail: 'Not Found' }
+  └
+  GET http://127.0.0.1:8000/customers/?status=active&page=1&limit=10 [200 OK, 814B, 61ms]
+  √  Status code is 200 OK
+  √  Response returns a data array
+
+└ Create Customer
+  POST http://127.0.0.1:8000/auth/login [404 Not Found, 206B, 5ms]
+  ┌
+  │ 'Auth Error (404):', { detail: 'Not Found' }
+  └
+  POST http://127.0.0.1:8000/customers/ [409 Conflict, 219B, 21ms]
+  5. Status code is 201 Created
+  6. Response contains generated customer ID
+  7. Created customer properties match request data
+  √  Response time is under 500ms
+
+□ leads / {lead_id}
+└ Get Lead
+  POST http://127.0.0.1:8000/auth/login [404 Not Found, 206B, 5ms]
+  ┌
+  │ 'Auth Error (404):', { detail: 'Not Found' }
+  └
+  GET http://127.0.0.1:8000/leads/7885 [404 Not Found, 210B, 31ms]
+
+└ Update Lead
+  POST http://127.0.0.1:8000/auth/login [404 Not Found, 206B, 6ms]
+  ┌
+  │ 'Auth Error (404):', { detail: 'Not Found' }
+  └
+  PUT http://127.0.0.1:8000/leads/2 [200 OK, 245B, 20ms]
+  √  Status code is 200 OK
+  √  Response contains lead ID and agent ID
+  √  Updated lead properties match sent payload
+  √  Response time is under 400ms
+
+└ Patch Lead
+  POST http://127.0.0.1:8000/auth/login [404 Not Found, 206B, 5ms]
+  ┌
+  │ 'Auth Error (404):', { detail: 'Not Found' }
+  └
+  PATCH http://127.0.0.1:8000/leads/2 [200 OK, 252B, 29ms]
+  √  Status code is 200 OK
+  √  Response body contains valid lead ID and agent ID
+  √  Patched lead properties match sent payload
+  √  Response time is under 400ms
+
+└ Delete Lead
+  POST http://127.0.0.1:8000/auth/login [404 Not Found, 206B, 5ms]
+  ┌
+  │ 'Auth Error (404):', { detail: 'Not Found' }
+  └
+  DELETE http://127.0.0.1:8000/leads/7885 [404 Not Found, 210B, 16ms]
+  √  Status code is 404 Not Found for missing ID
+
+□ leads
+└ Get Leads
+  POST http://127.0.0.1:8000/auth/login [404 Not Found, 206B, 5ms]
+  ┌
+  │ 'Auth Error (404):', { detail: 'Not Found' }
+  └
+  GET http://127.0.0.1:8000/leads/?status=new&page=1&limit=10 [200 OK, 924B, 22ms]
+  √  Status code is 200 OK
+  √  Response body contains valid pagination metadata
+  √  All returned leads have status 'new'
+  √  Response time is less than 300ms
+
+└ Create Lead
+  POST http://127.0.0.1:8000/auth/login [404 Not Found, 206B, 6ms]
+  ┌
+  │ 'Auth Error (404):', { detail: 'Not Found' }
+  └
+  POST http://127.0.0.1:8000/leads/ [201 Created, 253B, 23ms]
+  √  Status code is 201 Created
+  √  Response contains generated lead ID and agent ID
+  √  Created lead details match sent payload
+  √  Response time is under 400ms
+
+□ /
+└ Home
+  POST http://127.0.0.1:8000/auth/login [404 Not Found, 206B, 5ms]
+  ┌
+  │ 'Auth Error (404):', { detail: 'Not Found' }
+  └
+  GET http://127.0.0.1:8000/ [200 OK, 238B, 10ms]
+
+┌─────────────────────────┬──────────────────┬──────────────────┐
+│                         │         executed │           failed │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│              iterations │                1 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│                requests │               45 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│            test-scripts │               38 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│      prerequest-scripts │               25 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│              assertions │               47 │                7 │
+├─────────────────────────┴──────────────────┴──────────────────┤
+│ total run duration: 7.6s                                      │
+├───────────────────────────────────────────────────────────────┤
+│ total data received: 3.51kB (approx)                          │
+├───────────────────────────────────────────────────────────────┤
+│ average response time: 119ms [min: 4ms, max: 2s, s.d.: 414ms] │
+└───────────────────────────────────────────────────────────────┘
+
+[31m  # [39m[31m failure        [39m[31m detail                                                               [39m
+[90m    [39m[90m                [39m[90m                                                                      [39m
+ 1.  AssertionError  Status code is 200 OK                                                
+                     expected response to have status code 200 but got 422                
+                     at assertion:0 in test-script                                        
+                     inside "properties / Get Properties"                                 
+[90m    [39m[90m                [39m[90m                                                                      [39m
+ 2.  AssertionError  Response returns pagination and properties list                      
+                     expected { detail: [ { …(4) } ] } to have property 'data'            
+                     at assertion:1 in test-script                                        
+                     inside "properties / Get Properties"                                 
+[90m    [39m[90m                [39m[90m                                                                      [39m
+ 3.  TypeError       Status code is 200 OK                                                
+                     Cannot read properties of undefined (reading 'to')                   
+                     at assertion:0 in test-script                                        
+                     inside "customers / {customer_id} / Get Customer"                    
+[90m    [39m[90m                [39m[90m                                                                      [39m
+ 4.  TypeError       Response contains required customer fields                           
+                     Cannot read properties of undefined (reading 'json')                 
+                     at assertion:1 in test-script                                        
+                     inside "customers / {customer_id} / Get Customer"                    
+[90m    [39m[90m                [39m[90m                                                                      [39m
+ 5.  AssertionError  Status code is 201 Created                                           
+                     expected response to have status code 201 but got 409                
+                     at assertion:0 in test-script                                        
+                     inside "customers / Create Customer"                                 
+[90m    [39m[90m                [39m[90m                                                                      [39m
+ 6.  AssertionError  Response contains generated customer ID                              
+                     expected { detail: 'Customer already exists' } to have property 'id' 
+                     at assertion:1 in test-script                                        
+                     inside "customers / Create Customer"                                 
+[90m    [39m[90m                [39m[90m                                                                      [39m
+ 7.  AssertionError  Created customer properties match request data                       
+                     expected undefined to deeply equal 'Shafia malik'                    
+                     at assertion:2 in test-script                                        
+                     inside "customers / Create Customer"                                 

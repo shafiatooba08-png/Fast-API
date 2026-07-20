@@ -12,7 +12,7 @@ def rate_limiter(request: Request):
 
     current_time = time.time()
 
-    limit = 5
+    limit = 50000
     window = 60
 
     # Remove old requests
