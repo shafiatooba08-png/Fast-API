@@ -1,8 +1,15 @@
 from sqlalchemy.orm import Session, joinedload
 
 from app.leads import models, schemas
-from app.core.exceptions import LeadNotFoundError
+
 from app.core.events import emit_event
+from app.customers import models as customer_models
+from app.properties import models as property_models
+from app.core.exceptions import (
+    LeadNotFoundError,
+    CustomerNotFoundError,
+    PropertyNotFoundError
+)
 
 
 # GET all leads + status filter + pagination
@@ -53,6 +60,23 @@ def create_lead(
     lead: schemas.LeadCreate,
     user
 ):
+
+    customer = db.query(customer_models.Customer).filter(
+        customer_models.Customer.id == lead.customer_id
+    ).first()
+    print("customer =", customer)
+    if customer is None:
+       raise CustomerNotFoundError()
+
+
+    property = db.query(property_models.Property).filter(
+        property_models.Property.id == lead.property_id
+    ).first()
+
+    if property is None:
+       raise PropertyNotFoundError()
+
+
     new_lead = models.Lead(
         status=lead.status,
         property_id=lead.property_id,

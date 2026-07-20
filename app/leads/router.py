@@ -56,6 +56,8 @@ def create_lead(
     user: User = Depends(require_agent),
     _ = Depends(rate_limiter)
 ):
+    print(">>> create_lead endpoint reached <<<")
+
     return service.create_lead(
         db,
         lead,

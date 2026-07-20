@@ -20,3 +20,9 @@ class PermissionDeniedError(AppException):
 class UsernameAlreadyExistsError(AppException):
     def __init__(self):
         super().__init__("Username already exists")
+class CustomerNotFoundError(Exception):
+    pass
+
+
+class PropertyNotFoundError(Exception):
+    pass

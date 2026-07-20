@@ -52,6 +52,18 @@ def get_all_properties(
 # CREATE property
 
 def create_property(db: Session, property_data):
+
+    # Business rules
+    if property_data.price < 0:
+        return None
+
+    if property_data.area <= 0:
+        return None
+
+    if property_data.beds < 0:
+        return None
+
+
     new_property = models.Property(
         title=property_data.title,
         description=property_data.description,

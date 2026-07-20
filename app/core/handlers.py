@@ -6,13 +6,18 @@ from app.core.exceptions import (
     PropertyConflictError,
     PermissionDeniedError,
     UsernameAlreadyExistsError,
+    CustomerNotFoundError,
+    PropertyNotFoundError,
 )
 
 
 def register_exception_handlers(app: FastAPI):
 
     @app.exception_handler(LeadNotFoundError)
-    async def lead_not_found_handler(request: Request, exc: LeadNotFoundError):
+    async def lead_not_found_handler(
+        request: Request,
+        exc: LeadNotFoundError
+    ):
         return JSONResponse(
             status_code=404,
             content={
@@ -20,8 +25,12 @@ def register_exception_handlers(app: FastAPI):
             }
         )
 
+
     @app.exception_handler(PropertyConflictError)
-    async def property_conflict_handler(request: Request, exc: PropertyConflictError):
+    async def property_conflict_handler(
+        request: Request,
+        exc: PropertyConflictError
+    ):
         return JSONResponse(
             status_code=409,
             content={
@@ -29,14 +38,19 @@ def register_exception_handlers(app: FastAPI):
             }
         )
 
+
     @app.exception_handler(PermissionDeniedError)
-    async def permission_denied_handler(request: Request, exc: PermissionDeniedError):
+    async def permission_denied_handler(
+        request: Request,
+        exc: PermissionDeniedError
+    ):
         return JSONResponse(
             status_code=403,
             content={
                 "error": str(exc)
             }
         )
+
 
     @app.exception_handler(UsernameAlreadyExistsError)
     async def username_exists_handler(
@@ -45,6 +59,32 @@ def register_exception_handlers(app: FastAPI):
     ):
         return JSONResponse(
             status_code=409,
+            content={
+                "error": str(exc)
+            }
+        )
+
+
+    @app.exception_handler(CustomerNotFoundError)
+    async def customer_not_found_handler(
+        request: Request,
+        exc: CustomerNotFoundError
+    ):
+        return JSONResponse(
+            status_code=404,
+            content={
+                "error": str(exc)
+            }
+        )
+
+
+    @app.exception_handler(PropertyNotFoundError)
+    async def property_not_found_handler(
+        request: Request,
+        exc: PropertyNotFoundError
+    ):
+        return JSONResponse(
+            status_code=404,
             content={
                 "error": str(exc)
             }

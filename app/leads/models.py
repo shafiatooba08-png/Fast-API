@@ -31,7 +31,7 @@ class Lead(Base):
     # New field for RBAC
     agent_id = Column(
         Integer,
-        nullable=True
+        nullable=False 
     )
 
 
